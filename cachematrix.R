@@ -5,31 +5,30 @@
 ## Defines the get/set functions
 ## Defines the matrix, x, and the inverse, s
 makeCacheMatrix <- function(x = matrix()) {
-  s <- NULL
-  set <- function(y) { ##defines the set function
-    x <<- y
-    s <<- NULL ##assigning values in parent scopes
-  }
-  get <- function() x ##defines the get function
-  setSolve <- function(solve) x <<- solve ##define in parent scope and get/set/Solve functions
-  getSolve <- function() s
-  list(set = set, get = get,
-       setSolve = setSolve,
-       getSolve = getSolve)
+    s <- NULL
+    set <- function(y) { ##defines the set function
+      x <<- y
+      s <<- NULL ##assigns values in parent scopes
+    }
+    get <- function() x ##defines the get function
+    setSolve <- function(solve) s <<- solve
+    getSolve <- function() s ##define in parent scope and get/set/Solve functions
+    list(set = set,
+         get = get,
+         setSolve = setSolve,
+         getSolve = getSolve)
 }
-
-
 ## Write a short comment describing this function
 ## Return a matrix that is the inverse of 'x'
-## Solve function without additional arguments will return inverse matrix
+## 'Solve' function without additional arguments will return inverse matrix
 cacheSolve <- function(x, ...) {
-  s <- x[[getSolve()]]
-  if(!is.null(s)) {
+  s <- x$getSolve()
+  if (!is.null(s)) {
     message("getting cached data")
     return(s)
   }
-  data <- x[[get()]]
+  data <- x$get()
   s <- solve(data, ...)
-  x[[setSolve(s)]]
+  x$setSolve(s)
   s
 }

@@ -25,6 +25,7 @@ cacheSolve <- function(x, ...) {
   s <- x$getSolve() ##retrieve matrix 's'
   if (!is.null(s)) {
     message("getting cached data") ##lets one know if the matrix has been done before
+    return(s)
   }
   data <- x$get() ##retrieve matrix 'x'
   s <- solve(data, ...)
